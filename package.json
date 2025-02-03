@@ -1,0 +1,11 @@
+{
+  "name": "class-app-web-server",
+  "version": "1.0.0",
+  "description": "restful api server for class app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Preston Davis",
+  "license": "ISC"
+}
