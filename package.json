@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "restful api server for class app",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV='test' mocha ./tests/*"
   },
   "author": "Preston Davis",
   "license": "ISC",
@@ -15,5 +16,11 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "chai": "^5.2.0",
+    "chai-http": "^5.1.1",
+    "cross-env": "^7.0.3",
+    "mocha": "^11.1.0"
   }
 }

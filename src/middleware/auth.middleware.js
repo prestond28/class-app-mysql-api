@@ -1,18 +1,22 @@
-const jwt = require('jsonwebtoken');
-const jwtconfig = require('../jwt-config');
+import { jwtconfig, verifyToken } from '../utils/jwt-helpers.js';
 
-module.exports = function(req, res, next) {
-    const token = req.headers['auth-token'];
+export default function(req, res, next) {
+  const authHeader = req.headers['auth-token'] || req.headers['authorization'];
+  const accessToken = authHeader.split(' ')[1];
 
-    if (!token) {
-        res.status(401).send({ auth: false, msg: "Access Denied." });
-    }
+  if (!accessToken) {
+    // stop user auth validation
+    return res
+      .status(401)
+      .send({ auth: false, msg: 'Access Denied. No token provided.' });
+  }
 
-    try {
-        const verified = jwt.verify(token, jwtconfig.secret);
-        req.user = verified;
-        next();
-    }   catch (err) {
-        res.status(400).send({ msg: "Invalid token." });
-    }
+  try {
+    // verify the token is correct
+    const user = verifyToken(accessToken, jwtconfig.access, req, res); // {id: 1, iat: wlenfwekl, expiredIn: 9174323 }
+    req.user = user;
+    next();
+  } catch (err) {
+    return res.status(403).send({ msg: 'Invalid Token' });
+  }
 };

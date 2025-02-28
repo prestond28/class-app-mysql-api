@@ -1,12 +1,11 @@
-const express = require('express');
-const authController = require('../controllers/auth.controller');
-const userController = require('../controllers/user.controller');
-const verifyToken = require('../middleware/auth.middleware');
+import express from 'express';
+import { getMe, updateMe } from '../controllers/user.controller.js';
+import canAccess from '../middleware/auth.middleware.js';
 
 const userRoutes = express.Router();
 
-userRoutes.get('/me', userController.getMe);
+userRoutes.get('/me', canAccess, getMe); // /api/user/me
 
-userRoutes.post('/me/update', verifyToken, authController.updateUser);
+userRoutes.put('/me/update', canAccess, updateMe);
 
-module.exports = userRoutes;
+export default userRoutes;
