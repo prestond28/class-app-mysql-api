@@ -20,17 +20,19 @@ import query from '../utils/query.js';
 export async function getAllTasks(req, res) {
   // establish connection
   const con = await connection().catch((err) => {
-    throw err;
+    res.status(500).send({ message: 'Database connection failed', error: err.message });
   });
 
   // query all tasks
   const tasks = await query(con, ALL_TASKS).catch((err) => {
-    res.send(err);
+    res.status(500).send({ message: 'Query execution failed', error: err.message });
   });
-
-  if (tasks.length) {
-    res.json(tasks);
-  }
+  
+if (tasks.length === 0) {
+  res.status(404).send({ message: 'No tasks found' });
+} else {
+  res.json(tasks);
+}
 };
 
 // http://localhost:3000/tasks/1
@@ -47,7 +49,9 @@ export async function getTask(req, res) {
     }
   );
 
-  if (task.length) {
+  if (task.length === 0) {
+    res.status(404).send({ message: 'Task not found' });
+  } else {
     res.json(task);
   }
 };

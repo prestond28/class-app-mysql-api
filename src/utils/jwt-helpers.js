@@ -33,12 +33,3 @@ export const verifyToken = (token, secret, req, res) => {
     res.status(500).send({ auth: false, message: 'Invalid token.' });
   }
 };
-
-/*module.exports = {
-  jwtconfig,
-  refreshTokens,
-  generateAccessToken,
-  generateRefreshToken,
-  verifyToken,
-};
-*/

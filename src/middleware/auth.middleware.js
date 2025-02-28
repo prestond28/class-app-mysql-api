@@ -2,6 +2,7 @@ import { jwtconfig, verifyToken } from '../utils/jwt-helpers.js';
 
 export default function(req, res, next) {
   const authHeader = req.headers['auth-token'] || req.headers['authorization'];
+  console.log('Authorization Header:', authHeader);
   const accessToken = authHeader.split(' ')[1];
 
   if (!accessToken) {

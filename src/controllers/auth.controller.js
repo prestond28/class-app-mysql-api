@@ -31,7 +31,7 @@ export async function register(req, res) {
     }
   );
 
-  console.log('User check result:', user);
+  // console.log('User check result:', user);
 
   // if we get one result back
   if (user?.length === 1) {
