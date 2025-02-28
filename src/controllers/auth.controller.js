@@ -26,13 +26,15 @@ export async function register(req, res) {
   // check for existing user first
   const user = await query(con, GET_ME_BY_USERNAME, [req.body.username]).catch(
     (err) => {
-      res.status(500);
-      res.send({ msg: 'Could not retrieve user.' });
+      console.log('Error checking user:', err);
+      res.status(500).send({ msg: 'Database error. Please try again later.' });
     }
   );
 
+  console.log('User check result:', user);
+
   // if we get one result back
-  if (user.length === 1) {
+  if (user?.length === 1) {
     res.status(403).send({ msg: 'User already exists!' });
   } else {
     // add new user
@@ -62,7 +64,7 @@ export async function login(req, res) {
   });
 
   // if the user exists
-  if (user.length === 1) {
+  if (user?.length === 1) {
     //   validate entered password from database saved password
     const validPass = await bcrypt
       .compare(req.body.password, user[0].password)

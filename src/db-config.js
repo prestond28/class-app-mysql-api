@@ -51,10 +51,6 @@ const connection = async () =>
       console.log(err);
     }
   );
-
-  if (!!userTableCreated && !!tasksTableCreated) {
-    console.log('Tables Created!');
-  }
 })();
 
 export default connection;

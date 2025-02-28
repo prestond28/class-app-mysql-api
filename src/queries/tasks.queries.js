@@ -15,7 +15,7 @@
  */
 export const CREATE_TASKS_TABLE = `CREATE TABLE IF NOT EXISTS tasks(
   id int NOT NULL AUTO_INCREMENT,
-  user_id varchar(50) NOT NULL,
+  user_id int NOT NULL,
   name varchar(255) NOT NULL,
   created_date DATETIME DEFAULT CURRENT_TIMESTAMP(),
   status varchar(10) DEFAULT 'pending',
