@@ -24,7 +24,7 @@ tasksRoutes.get('/', canAccess, getAllTasks).post('/', canAccess, createTask);
  * Routes for a task by id. Evalutes to `/tasks/:taskId`.
  */
 tasksRoutes
-  .get('/:taskId', canAccess, getTask) // GET http://locahost:3000/tasks/1
+  .get('/:taskId', canAccess, getTask) // GET http://locahost:3000/api/tasks/1
   .put('/:taskId', canAccess, updateTask)
   .delete('/:taskId', canAccess, deleteTask);
 

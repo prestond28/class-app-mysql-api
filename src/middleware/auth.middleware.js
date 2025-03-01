@@ -2,15 +2,16 @@ import { jwtconfig, verifyToken } from '../utils/jwt-helpers.js';
 
 export default function(req, res, next) {
   const authHeader = req.headers['auth-token'] || req.headers['authorization'];
-  console.log('Authorization Header:', authHeader);
-  const accessToken = authHeader.split(' ')[1];
-
-  if (!accessToken) {
+  // console.log('Authorization Header:', authHeader);
+  
+   if (!authHeader) {
     // stop user auth validation
-    return res
+    res
       .status(401)
-      .send({ auth: false, msg: 'Access Denied. No token provided.' });
+      .json({ auth: false, msg: 'Access Denied. No token provided.' });
   }
+
+  const accessToken = authHeader.split(' ')[1];
 
   try {
     // verify the token is correct
@@ -18,6 +19,6 @@ export default function(req, res, next) {
     req.user = user;
     next();
   } catch (err) {
-    return res.status(403).send({ msg: 'Invalid Token' });
+    res.status(403).json({ msg: 'Invalid Token' });
   }
 };
