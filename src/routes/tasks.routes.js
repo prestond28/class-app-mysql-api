@@ -21,11 +21,11 @@ const tasksRoutes = express.Router();
 tasksRoutes.get('/', canAccess, getAllTasks).post('/', canAccess, createTask);
 
 /**
- * Routes for a task by id. Evalutes to `/tasks/:taskId`.
+ * Routes for a task by id. Evalutes to `/tasks/:task_id`.
  */
 tasksRoutes
-  .get('/:taskId', canAccess, getTask) // GET http://locahost:3000/api/tasks/1
-  .put('/:taskId', canAccess, updateTask)
-  .delete('/:taskId', canAccess, deleteTask);
+  .get('/:task_id', canAccess, getTask) // GET http://locahost:3000/api/tasks/1
+  .put('/:task_id', canAccess, updateTask)
+  .delete('/:task_id', canAccess, deleteTask);
 
 export default tasksRoutes;

@@ -40,7 +40,7 @@ export const SINGLE_TASK = `SELECT * FROM tasks WHERE user_id = ? AND task_id = 
  * - column names match the order the are in the table
  * - `?` allow us to use params in our controllers
  */
-export const INSERT_TASK = `INSERT INTO tasks (user_id, task_name) VALUES (?, ?)`;
+export const INSERT_TASK = `INSERT INTO tasks (user_id, task_name, status) VALUES (?, ?, ?)`;
 
 /**
  * Update follows syntax:

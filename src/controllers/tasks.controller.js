@@ -44,7 +44,7 @@ export async function getTask(req, res) {
   });
 
   // query all task
-  const task = await query(con, SINGLE_TASK, [req.user.id, req.params.taskId]).catch(
+  const task = await query(con, SINGLE_TASK, [req.user.id, req.params.task_id]).catch(
     (err) => {
       res.send(err);
     }
@@ -76,7 +76,11 @@ export async function createTask(req, res) {
     });
 
     // query add task
-    const result = await query(con, INSERT_TASK, [req.user.id, req.body.task_name]).catch(
+    const result = await query(con, INSERT_TASK, [
+      req.user.id, 
+      req.body.task_name,
+      req.body.status
+    ]).catch(
       (err) => {
         res.send(err);
       }
@@ -101,26 +105,35 @@ export async function createTask(req, res) {
  * }
  */
 export async function updateTask(req, res) {
-  // establish connection
-  const con = await connection().catch((err) => {
-    throw err;
-  });
+  // verify valid token
+  const user = req.user; // {id: 1, iat: wlenfwekl, expiredIn: 9174323 }
 
-  // query update task
-  const result = await query(con, UPDATE_TASK, [
-    req.body.name,
-    req.body.status,
-    req.params.taskId,
-  ]).catch((err) => {
-    res.send(err);
-  });
+  // take result of middleware check
+  if (user.id) {
+    // establish connection
+    const con = await connection().catch((err) => {
+      throw err;
+    });
 
-  if (result.affectedRows !== 1) {
-    res
-      .status(500)
-      .json({ msg: `Unable to update task where task name = '${req.body.task_name}'` });
+    // query update task
+    const result = await query(con, UPDATE_TASK, [
+      req.body.task_name,
+      req.body.status,
+      req.user.id,
+      req.params.task_id,
+    ]).catch((err) => {
+      res.send(err);
+    });
+
+    if (result) {
+      if (result.affectedRows !== 1) {
+      res
+        .status(500)
+        .json({ msg: `Unable to update task where task name = '${req.body.task_name}'` });
+      }
+      res.json(result);
+    } else { console.log("updateTask function failed") }
   }
-  res.json(result);
 };
 
 // http://localhost:3000/tasks/1
@@ -131,7 +144,7 @@ export async function deleteTask(req, res) {
   });
 
   // query delete task
-  const result = await query(con, DELETE_TASK, [req.user.id, req.params.taskId]).catch(
+  const result = await query(con, DELETE_TASK, [req.user.id, req.params.task_id]).catch(
     (err) => {
       res.send(err);
     }
@@ -140,7 +153,7 @@ export async function deleteTask(req, res) {
   if (result.affectedRows !== 1) {
     res
       .status(500)
-      .json({ msg: `Unable to delete task where task id = ${req.params.taskId}` });
+      .json({ msg: `Unable to delete task where task id = ${req.params.task_id}` });
   }
   res.json({ msg: 'Deleted successfully.' });
 };

@@ -4,7 +4,7 @@ const chai = use(chaiHttp)
 
 const request = chai.request.execute;
 
-const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQwNzkzMTE4LCJleHAiOjE3NDA4Nzk1MTh9.yrNk63dkhGSoOX7Kzfdr3S8V0L82M70FHNbgah9lk08';
+const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQxMzgxMjE1LCJleHAiOjE3NDE0Njc2MTV9.kpXlj5wpNAKaXY3MHX9EJBXmL6STLYuxKWBX_eUH7IA';
 
 describe('Auth API service', () => {
   // run one time then .skip once working
@@ -67,6 +67,7 @@ describe('Tasks API Service', () => {
     const newTask = {
       user_id: '1',
       task_name: 'New test task!',
+      status: 'pending',
     };
     const expected = { message: 'Added task successfully!' };
 
@@ -96,16 +97,16 @@ describe('Tasks API Service', () => {
   it('should GET a single task', (done) => {
     const expected = [
       {
-        task_id: 1,
+        task_id: 3,
         user_id: 1,
         task_name: "New test task!",
-        created_date: "2025-03-01T18:32:44.000Z",
+        created_date: "2025-03-01T18:35:52.000Z",
         status: "pending",
       },
     ];
 
   request('http://localhost:3000')
-      .get('/api/tasks/1')
+      .get('/api/tasks/3')
       .set('Authorization', `Bearer ${accessToken}`)
       .end((err, resp) => {
         expect(resp.status).to.be.eql(200);
